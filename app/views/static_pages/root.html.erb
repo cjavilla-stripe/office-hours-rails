@@ -1,0 +1,47 @@
+<h1>Developer Office Hours</h1>
+
+<ul id="orders"></ul>
+
+<button type="submit" id="btn">Create Order</button>
+
+<script charset="utf-8">
+  const btn = document.querySelector('#btn');
+  btn.addEventListener('click', function(e) {
+    e.preventDefault();
+    fetch('/orders', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        authenticity_token: "<%= form_authenticity_token %>",
+
+        order: {
+          status: "paid",
+          paid_at: 1604695399,
+          stripe_id: `pi_123 ${new Date()}`,
+        }
+      }),
+    })
+    .then((response) => response.json())
+    .then((order) => {
+      console.log('Order:', order);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  });
+
+  const ordersUl = document.querySelector('#orders');
+  fetch('/orders')
+    .then((response) => response.json())
+    .then((orders) => {
+      orders.forEach((order) => {
+        ordersUl.innerHTML += `<li>${order.id} from ${order.created_at}</li>`;
+      });
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+
+</script>
