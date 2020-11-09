@@ -1,5 +1,7 @@
 # Ruby on Rails Stripe Sample starter
 
+[🎬 Watch on YouTube](https://youtu.be/8aA9Enb8NVc)
+
 Note: This demo does *not* implement any Stripe logic, and is a foundation for
 other demos.
 
@@ -226,4 +228,14 @@ rails g controller StaticPages root --no-helper --no-assets
 
 ### Webhooks
 
+The key points for working with webhooks in Rails, is that because the POST
+request is coming from Stripe rather than a form on a page that you host, CSRF
+will need to be disabled on this controller.
 
+You can disable CSRF at the top of a controller by adding:
+
+```rb
+skip_before_action :verify_authenticity_token
+```
+
+To learn more about webhooks, see the [official documentation](https://stripe.com/docs/webhooks/build) or [🎬 watch the Webhooks ep.](https://youtu.be/oYSLhriIZaA).
